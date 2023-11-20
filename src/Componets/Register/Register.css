@@ -1,0 +1,13 @@
+.registration 
+{
+    height:20px;
+    width: 100px;
+    color: green;
+    font-weight: 400;
+}
+.reg
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
