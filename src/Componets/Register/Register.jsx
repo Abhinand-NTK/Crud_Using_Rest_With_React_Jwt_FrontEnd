@@ -32,11 +32,10 @@ const Register = () => {
         console.log("The button is working in proper way")
 
         dispatch(userRegistation(formData))
-        .then(() => {
-            navigate('/loginpage');  
-          });
+            .then(() => {
+                navigate('/loginpage');
+            });
 
-        console.log("after!!!!!!!!!!!!!!!")
 
 
     }
@@ -51,13 +50,13 @@ const Register = () => {
                     <div className='signContainer'>
                         <div className='registration'>
                             {registeredUser && (
-                            <div className='reg'>
-                                <p>User successfully registered:</p>
-                                {/* <p>First Name: {registeredUser.first_name}</p>
+                                <div className='reg'>
+                                    <p>User successfully registered:</p>
+                                    {/* <p>First Name: {registeredUser.first_name}</p>
                             <p>Last Name: {registeredUser.last_name}</p>
                             <p>Email: {registeredUser.email}</p> */}
-                            </div>
-                            )} 
+                                </div>
+                            )}
                         </div>
                         <div className='data'>
                             <label id='email' htmlFor="">Enter the Email Address</label>

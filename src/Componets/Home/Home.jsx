@@ -11,16 +11,16 @@ const Home = () => {
 
     const Navigate = useNavigate()
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if(!user.user)
-        {
+    //     // if(!user.user)
+    //     // {
 
-            Navigate('/loginpage')
-        }
+    //     //     Navigate('/loginpage')
+    //     // }
        
       
-      }, [user]);
+    //   }, [user]);
     return (
         <>
             <Layout>
