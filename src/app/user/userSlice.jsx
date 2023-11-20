@@ -1,32 +1,49 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from './userApi';
 import { jwtDecode } from 'jwt-decode';
+// import { login } from './userSlice';
 
 
 export const userRegistation = createAsyncThunk('user/register', async (userData) => {
     const response = await userApi.register(userData)
 
+    console.log("This is the data from the backend", response)
 
     return response
 
 });
 
-export const userLogin = createAsyncThunk('user/login', async (userData, { dispatch }) => {
+// export const userLogin = createAsyncThunk('user/login', async (userData, { dispatch }) => {
+  
+
+//     try {
+//         const response = await userApi.login(userData);
+//         const accessToken = response.access;
+//         localStorage.setItem('jwtToken', accessToken);
+//         const decodedToken = jwtDecode(accessToken);
+//         console.log(decodedToken)
+
+//         dispatch(login(decodedToken));
+//     } catch (error) {
+//     }
+
+
+
+
+// });
+export const userLogin = createAsyncThunk('user/login', async (userData) => {
     try {
-
-        const response = await userApi.login(userData);
-        const accessToken = response.access;
-        localStorage.setItem('jwtToken', accessToken);
-        const decodedToken = jwtDecode(accessToken);
-
-        dispatch(login(decodedToken));
+      const response = await userApi.login(userData);
+      const accessToken = response.access;
+      localStorage.setItem('jwtToken', accessToken);
+      const decodedToken = jwtDecode(accessToken);
+      return decodedToken;
     } catch (error) {
+      throw error;
     }
+  });
+  
 
-
-
-
-});
 
 const userSlice = createSlice({
     name: 'user',

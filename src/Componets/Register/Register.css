@@ -1,13 +1,40 @@
-.registration 
-{
-    height:20px;
-    width: 100px;
-    color: green;
-    font-weight: 400;
-}
-.reg
-{
+.alignment {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+    /* height: 100vh; */
+  }
+  
+  .signContainer {
+    width: 300px;
+    padding: 20px;
+    border: 4px solid #ccc;
+    border-radius: 40px;
+  }
+  
+  .data {
+    margin-bottom: 15px;
+  }
+  
+  .input-error {
+    border: 1px solid red;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  .account
+  {
+
+      margin-top: 30px;
+  }
+  .account a
+  {
+    /* padding-top: 20px; */
+    color: black;
+  }
+  
+  /* Add any other styles as needed */
+  
