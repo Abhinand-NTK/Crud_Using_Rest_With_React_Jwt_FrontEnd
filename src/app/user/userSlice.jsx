@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from './userApi';
 import { jwtDecode } from 'jwt-decode';
-// import { login } from './userSlice';
 
 
 export const userRegistation = createAsyncThunk('user/register', async (userData) => {
@@ -14,7 +13,7 @@ export const userRegistation = createAsyncThunk('user/register', async (userData
 });
 
 // export const userLogin = createAsyncThunk('user/login', async (userData, { dispatch }) => {
-  
+
 
 //     try {
 //         const response = await userApi.login(userData);
@@ -33,16 +32,16 @@ export const userRegistation = createAsyncThunk('user/register', async (userData
 // });
 export const userLogin = createAsyncThunk('user/login', async (userData) => {
     try {
-      const response = await userApi.login(userData);
-      const accessToken = response.access;
-      localStorage.setItem('jwtToken', accessToken);
-      const decodedToken = jwtDecode(accessToken);
-      return decodedToken;
+        const response = await userApi.login(userData);
+        const accessToken = response.access;
+        localStorage.setItem('jwtToken', accessToken);
+        const decodedToken = jwtDecode(accessToken);
+        return decodedToken;
     } catch (error) {
-      throw error;
+        throw error;
     }
-  });
-  
+});
+
 
 
 const userSlice = createSlice({
@@ -67,6 +66,19 @@ const userSlice = createSlice({
                 state.user = null;
                 state.error = action.error.message;
             })
+            .addCase(userLogin.fulfilled, (state, action) => {
+
+                state.user = action.payload;
+                })
+
+
+
+
+        // .addcase(
+        //     userLogin.fulfilled, (state, action) => {
+        //         console.log(action.payload)
+        //     }
+        // )
 
 
     }
