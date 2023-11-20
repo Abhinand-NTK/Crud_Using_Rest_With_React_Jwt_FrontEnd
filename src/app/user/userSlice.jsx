@@ -36,6 +36,7 @@ export const userLogin = createAsyncThunk('user/login', async (userData) => {
         const accessToken = response.access;
         localStorage.setItem('jwtToken', accessToken);
         const decodedToken = jwtDecode(accessToken);
+        console.log(decodedToken)
         return decodedToken;
     } catch (error) {
         throw error;
@@ -67,6 +68,8 @@ const userSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(userLogin.fulfilled, (state, action) => {
+
+                console.log(action)
 
                 state.user = action.payload;
                 })

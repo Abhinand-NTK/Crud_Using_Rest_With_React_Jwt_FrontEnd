@@ -107,24 +107,33 @@ const Login = () => {
   };
 
   const login = async () => {
-    if (!user.email) {
-      setErrors({ ...errors, email: 'Email is required' });
+    if (!user.email || !user.password) {
+      setErrors({ ...errors, email: 'Email and password are required' });
       return;
     }
-  
+
     try {
       const decodedToken = await dispatch(userLogin(user));
-      if (decodedToken) {
+      console.log(decodedToken);
+      console.log(check.user.user)
+      if (check.user.user) {
         navigate('/');
       } else {
-        setErrors({ ...errors, email: 'User not found. Please check your email or register.' });
+        setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
       }
     } catch (error) {
       console.error('Login error:', error);
-      setErrors({ ...errors, email: 'An error occurred. Please try again.' });
+      if (error.response && error.message === "Request failed with status code 401") {
+        setErrors({ ...errors, email: 'Invalid email or password. Please try again.' });
+
+      } else {
+        // Other server errors
+        setErrors({ ...errors, email: 'An error occurred. Please try again.' });
+      }
     }
   };
-  
+
+
 
   return (
     <>

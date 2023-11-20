@@ -11,6 +11,7 @@ export const userApi = {
     },
     login: async(userData)=>{
         const response = await axios.post(`${BASE_URL}/users/token/`,userData);
+        console.log(response.data)
         return response.data;
     }
 }
