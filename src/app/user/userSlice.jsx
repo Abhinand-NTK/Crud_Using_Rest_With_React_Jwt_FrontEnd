@@ -12,24 +12,6 @@ export const userRegistation = createAsyncThunk('user/register', async (userData
 
 });
 
-// export const userLogin = createAsyncThunk('user/login', async (userData, { dispatch }) => {
-
-
-//     try {
-//         const response = await userApi.login(userData);
-//         const accessToken = response.access;
-//         localStorage.setItem('jwtToken', accessToken);
-//         const decodedToken = jwtDecode(accessToken);
-//         console.log(decodedToken)
-
-//         dispatch(login(decodedToken));
-//     } catch (error) {
-//     }
-
-
-
-
-// });
 export const userLogin = createAsyncThunk('user/login', async (userData) => {
     try {
         const response = await userApi.login(userData);
@@ -56,6 +38,9 @@ const userSlice = createSlice({
         logout: (state) => {
             state.user = null;
         },
+        updateUser: (state, action) => {
+            state.user = action.payload;
+          },
     },
     extraReducers: (builder) => {
         builder
@@ -68,13 +53,13 @@ const userSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(userLogin.fulfilled, (state, action) => {
-
-                console.log(action)
-
                 state.user = action.payload;
             })
+            .addCase(updateUser, (state, action) => {
+                state.user = action.payload;
+            });
     }
 })
 
 export default userSlice.reducer;
-export const { login, logout } = userSlice.actions;
+export const { login, logout,updateUser } = userSlice.actions;

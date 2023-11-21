@@ -1,36 +1,3 @@
-// import React, { useState } from 'react'
-// import Layout from '../Layout/Layout'
-// import './login.css'
-// import { useDispatch, useSelector } from 'react-redux'
-// import { userLogin } from '../../app/user/userSlice'
-// import { useNavigate } from 'react-router-dom'
-
-
-
-
-// const Login = () => {
-
-//     const dispatch = useDispatch()
-//     const check = useSelector((state) => state.user);
-
-
-//     const Naviagate = useNavigate()
-
-//     const [user, setUser] = useState({
-//         email: '',
-//         password: '',
-
-//     })
-
-//     const loginpage = (e) => {
-//         setUser({ ...user, [e.target.name]: e.target.value });
-
-//     }
-
-//     const login = () => {
-//         dispatch(userLogin(user))
-//             .then((response) => {
-
 import React, { useState } from 'react';
 import Layout from '../Layout/Layout';
 import './login.css';

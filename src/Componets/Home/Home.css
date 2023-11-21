@@ -7,3 +7,10 @@
     font: weight 300px;
     font-size: 30px;
 }
+.details
+{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    height: 70vh;
+}
