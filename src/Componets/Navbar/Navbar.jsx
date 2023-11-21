@@ -9,18 +9,11 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
 
+    console.log(user)
+
     const handleLogout = () => {
         localStorage.removeItem('jwtToken');
         dispatch(logout());
-        console.log("Hai  i am back to the panel")
-        console.log("Hai  i am back to the panel")
-        console.log("Hai  i am back to the panel")
-        console.log("Hai  i am back to the panel")
-        // Navigate('/registerpage');
-        console.log("Hai i am ready to navigate")
-        console.log("Hai i am ready to navigate")
-        console.log("Hai i am ready to navigate")
-        console.log("Hai i am ready to navigate")
     };
 
     const guestLinks = (
@@ -33,6 +26,11 @@ const Navbar = () => {
             <li>
                 <NavLink className='linkli' to='/registerpage'>
                     Register
+                </NavLink>
+            </li>
+            <li>
+                <NavLink className='linkli' to='/admin'>
+                    Admin Login 
                 </NavLink>
             </li>
         </>
@@ -62,7 +60,7 @@ const Navbar = () => {
             </li>
             <li>
                 <NavLink className='linkli' to='/admin'>
-                    Admin Login
+                    Admin Logout
                 </NavLink>
             </li>
         </>
@@ -76,10 +74,10 @@ const Navbar = () => {
                 </div>
                 <div className='lists'>
                     {user.user ? (
-                        user.is_admin ? (
+                        user.user.is_admin ? (
                             <>
                                 {adminLinks}
-                                {userLinks}
+                                {/* {userLinks} */}
                             </>
                         ) : (
                             userLinks

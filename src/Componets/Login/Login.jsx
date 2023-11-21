@@ -115,10 +115,14 @@ const Login = () => {
     try {
       const decodedToken = await dispatch(userLogin(user));
       console.log(decodedToken);
-      console.log(check.user.user)
-      if (check.user.user) {
+
+      if (decodedToken.payload.is_admin) {
         navigate('/');
-      } else {
+      }
+      else if (decodedToken.payload.is_admin == false) {
+        setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
+      }
+      else {
         setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
       }
     } catch (error) {

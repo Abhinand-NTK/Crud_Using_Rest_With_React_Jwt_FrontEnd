@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from '../Layout/Layout'
 import './Admin.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { userLogin } from '../../app/user/userSlice'
 import { jwtDecode } from 'jwt-decode'
@@ -9,53 +9,57 @@ import { jwtDecode } from 'jwt-decode'
 
 
 
+
 const Admin = () => {
 
-    const [err,setErr]=useState()
-
-    const dispatch = useDispatch()
-
-    const Navigate = useNavigate()
+    const navigate = useNavigate();
+    const check = useSelector((state) => state.user);
 
     const [user, setUser] = useState({
         email: '',
         password: '',
+    });
 
-    })
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+    });
 
-    console.log(user)
     const loginpage = (e) => {
         setUser({ ...user, [e.target.name]: e.target.value });
+        setErrors({ ...errors, [e.target.name]: '' });
+    };
 
-    }
+    const adminLogin = async () => {
+        if (!user.email || !user.password) {
+            setErrors({ ...errors, email: 'Email and password are required' });
+            return;
+        }
 
-    setTimeout(() => {
-        setErr('')
-    }, 8000);
+        try {
+            const decodedToken = await dispatch(userLogin(user));
+            console.log(decodedToken);
 
-    const adminLogin = () => {
-        dispatch(userLogin(user))
-            .then(() => {
-                const token = localStorage.getItem('jwtToken');
-                const decodedToken = jwtDecode(token);
-                console.log(token);
-                const check = decodedToken.is_admin;
+            if (decodedToken.payload.is_admin) {
+                navigate('/');
+            }
+            else if (decodedToken.payload.is_admin == false) {
+                setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
+            }
+            else {
+                setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            if (error.response && error.message === "Request failed with status code 401") {
+                setErrors({ ...errors, email: 'Invalid email or password. Please try again.' });
 
-                if (check) {
-                    Navigate('/admindashboard');
-                }
-                else if(!check)
-                {
-                    setErr("Invalid Credentials")
-
-                }
-            })
-            .catch((error) => {
-                console.error('An error occurred:', error);
-                // You can handle the error here, e.g., display an error message to the user
-            });
-    }
-    return (
+            } else {
+                // Other server errors
+                setErrors({ ...errors, email: 'An error occurred. Please try again.' });
+            }
+        }
+    }; return (
         <>
             <Layout>
                 <div className='alignment'>
@@ -64,7 +68,7 @@ const Admin = () => {
                             <p>Admin Login</p>
                         </div>
                         <div className='errmessage'>
-                            <p>{err}</p>
+                            {/* <p>{err}</p> */}
                         </div>
                         <div className="data">
                             <label htmlFor="email">Email</label>
