@@ -59,7 +59,7 @@ const Navbar = () => {
                 </NavLink>
             </li>
             <li>
-                <NavLink className='linkli' to='/admin'>
+                <NavLink onClick={handleLogout} className='linkli' to='/admin'>
                     Admin Logout
                 </NavLink>
             </li>

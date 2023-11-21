@@ -12,10 +12,11 @@ import { jwtDecode } from 'jwt-decode'
 
 const Admin = () => {
 
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const check = useSelector((state) => state.user);
 
-    const [user, setUser] = useState({
+    const [adminUser, setAdminUser] = useState({
         email: '',
         password: '',
     });
@@ -26,22 +27,22 @@ const Admin = () => {
     });
 
     const loginpage = (e) => {
-        setUser({ ...user, [e.target.name]: e.target.value });
+        setAdminUser({ ...adminUser, [e.target.name]: e.target.value });
         setErrors({ ...errors, [e.target.name]: '' });
     };
 
     const adminLogin = async () => {
-        if (!user.email || !user.password) {
+        if (!adminUser.email || !adminUser.password) {
             setErrors({ ...errors, email: 'Email and password are required' });
             return;
         }
 
         try {
-            const decodedToken = await dispatch(userLogin(user));
-            console.log(decodedToken);
+            const decodedToken = await dispatch(userLogin(adminUser));
+            // console.log(decodedToken);
 
             if (decodedToken.payload.is_admin) {
-                navigate('/');
+                navigate('/admindashboard');
             }
             else if (decodedToken.payload.is_admin == false) {
                 setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
@@ -55,7 +56,6 @@ const Admin = () => {
                 setErrors({ ...errors, email: 'Invalid email or password. Please try again.' });
 
             } else {
-                // Other server errors
                 setErrors({ ...errors, email: 'An error occurred. Please try again.' });
             }
         }
@@ -79,7 +79,7 @@ const Admin = () => {
                             <input onChange={loginpage} placeholder='Enter the password' type="password" name="password" id="Password" />
                         </div>
                         <div>
-                            <button onClick={adminLogin} type='submit' >Login</button>
+                            <button onClick={adminLogin} type='button'>Login</button>
                         </div>
                     </div>
                 </div>

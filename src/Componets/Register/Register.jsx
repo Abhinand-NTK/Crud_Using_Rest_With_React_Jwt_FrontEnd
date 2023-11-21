@@ -201,7 +201,7 @@ const Register = () => {
                             <input type='password' onChange={handleInputChange} name='repeatpassword' placeholder='Enter the repeatpassword' id='repeatpassword' className={errors.repeatpassword ? 'input-error' : ''} />
                             {errors.repeatpassword && <p className='error-message'>{errors.repeatpassword}</p>}
                         </div>
-                        <div>
+                        <div className='button'>
                             <button onClick={registerUser}>Register</button>
                             {registrationError && <p className='error-message'>Error: {registrationError}</p>}
                         </div>

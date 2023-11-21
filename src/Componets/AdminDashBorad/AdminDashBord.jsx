@@ -2,47 +2,29 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../Layout/Layout'
 import './AdminDashBord.css'
 import { jwtDecode } from 'jwt-decode'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 
 
 const AdminDashBord = () => {
 
     const [userData, setUserData] = useState(null);
-    const token = localStorage.getItem('jwtToken');
-    const decodedToken = jwtDecode(token);
-    console.log(token)
-    console.log(decodedToken.is_admin)
+    const user = useSelector((state) => state.user);
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (!user.user) {
+          setTimeout(() => navigate('/admin'), 5000);
+        }
+      }, [user, navigate]);
   
 
-    // useEffect(() => {
-    //   const fetchUserData = async () => {
-    //     try {
-    //       // Fetch the JWT from wherever it's stored in your application (e.g., localStorage)
-  
-    //       if (token) {
-    //         // Decode the JWT to access user information
-
-    //         console.log(decodedToken.username)
-  
-    //         // Make a request to the Django Rest Framework endpoint to get user details
-    //         const response = await axios.get('/api/user-details/');
-    //         setUserData({
-    //           username: decodedToken.username,
-    //           is_superuser: decodedToken.is_superuser,
-    //           // Add other user information as needed
-    //         });
-    //       }
-    //     } catch (error) {
-    //       console.error('Error fetching user details:', error);
-    //     }
-    //   };
-  
-    //   fetchUserData();
-    // }, []);
     return (
         <>
             <Layout>
-                <div className='tablealignement'>
+                {
+                    user.user ?(
+                        <div className='tablealignement'>
                     <div className="table-responsive">
                         <table className="table table-primary">
                             <thead> 
@@ -70,9 +52,15 @@ const AdminDashBord = () => {
                     </div>
                     
                 </div>
+
+                    ):( <p className='errorfornotlogin'>Your not Logged In Please Login in first</p>
+                        )
+                }
+                
             </Layout>
         </>
     )
 }
 
 export default AdminDashBord
+

@@ -1,0 +1,9 @@
+.errorfornotlogin{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    color: red;
+    font: weight 300px;
+    font-size: 30px;
+}

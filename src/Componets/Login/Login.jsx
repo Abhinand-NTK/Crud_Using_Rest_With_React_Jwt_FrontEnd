@@ -31,54 +31,6 @@
 //         dispatch(userLogin(user))
 //             .then((response) => {
 
-//                 console.log(check)
-//                 console.log(check.user)
-
-//                 // if (check.user) {
-
-//                     Naviagate('/');
-//                 // }
-//             });
-
-//     }
-
-//     const registeredUser = useSelector((state) => state.user.user);
-
-//     return (
-//         <>
-//             <Layout title='Auth | Login | Login Dashboard' content='Login Dashboard page'>
-//                 <div className='alignment'>
-//                     <div className='loginContainer'>
-//                         <div className='success'>
-//                             {registeredUser && <p>User is created Scucessfully</p>}
-//                         </div>
-//                         <div className='success'>
-//                             {registeredUser && <p>Login</p>}
-//                         </div>
-//                         <div className="data">
-//                             <label htmlFor="email">Email</label>
-//                             <input onChange={loginpage} type="email" name="email" placeholder='Enter The email' id="email" />
-//                         </div>
-//                         <div className="data">
-//                             <label htmlFor="email">Password</label>
-//                             <input onChange={loginpage} placeholder='Enter the password' type="password" name="password" id="Password" />
-//                         </div>
-//                         <div>
-//                             <button type='submit' onClick={login}>Login</button>
-//                         </div>
-//                     </div>
-//                 </div>
-
-//             </Layout>
-//         </>
-//     )
-// }
-
-// export default Login
-
-
-
-
 import React, { useState } from 'react';
 import Layout from '../Layout/Layout';
 import './login.css';
@@ -116,14 +68,14 @@ const Login = () => {
       const decodedToken = await dispatch(userLogin(user));
       console.log(decodedToken);
 
-      if (decodedToken.payload.is_admin) {
+      if (!decodedToken.payload.is_admin) {
         navigate('/');
       }
-      else if (decodedToken.payload.is_admin == false) {
-        setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
+      else if (decodedToken.payload.is_admin == true) {
+        setErrors({ ...errors, email: 'Only users are allowed to log in.' });
       }
       else {
-        setErrors({ ...errors, email: 'Only admins are allowed to log in.' });
+        setErrors({ ...errors, email: 'Only Users are allowed to log in.' });
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -131,7 +83,6 @@ const Login = () => {
         setErrors({ ...errors, email: 'Invalid email or password. Please try again.' });
 
       } else {
-        // Other server errors
         setErrors({ ...errors, email: 'An error occurred. Please try again.' });
       }
     }

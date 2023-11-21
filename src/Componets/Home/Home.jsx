@@ -18,8 +18,8 @@
 
 //     //     //     Navigate('/loginpage')
 //     //     // }
-       
-      
+
+
 //     //   }, [user]);
 //     return (
 //         <>
@@ -47,6 +47,7 @@
 import React, { useEffect } from 'react';
 import Layout from '../Layout/Layout';
 import { useSelector } from 'react-redux';
+import './Home.css'
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -57,8 +58,7 @@ const Home = () => {
 
   useEffect(() => {
     if (!user.user) {
-      navigate('/loginpage');
-      console.log("This is the seen from abhinandn")
+      setTimeout(() => navigate('/loginpage'), 5000);
     }
   }, [user, navigate]);
 
@@ -73,9 +73,9 @@ const Home = () => {
               <p>Email: {user.user.is_admin ? 'Admin' : 'Staff/User'}</p>
             </div>
           ) : (
-            <p>You are not logged in. Please log in.</p>
+            <p className='errorfornotlogin'>You are not logged in. Please log in.</p>
           )}
-          <h1>Hello user, Welcome</h1>
+            {/* <h1>Hello user, Welcome</h1> */}
         </div>
       </Layout>
     </>

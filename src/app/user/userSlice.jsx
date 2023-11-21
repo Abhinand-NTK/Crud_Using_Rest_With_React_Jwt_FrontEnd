@@ -72,18 +72,7 @@ const userSlice = createSlice({
                 console.log(action)
 
                 state.user = action.payload;
-                })
-
-
-
-
-        // .addcase(
-        //     userLogin.fulfilled, (state, action) => {
-        //         console.log(action.payload)
-        //     }
-        // )
-
-
+            })
     }
 })
 
