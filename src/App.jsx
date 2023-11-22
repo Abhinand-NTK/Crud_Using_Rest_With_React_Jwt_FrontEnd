@@ -10,6 +10,8 @@ import Register from './Componets/Register/Register'
 import Home from './Componets/Home/Home'
 import Admin from './Componets/AdminLogin/Admin'
 import AdminDashBord from './Componets/AdminDashBorad/AdminDashBord'
+import EditHome from './Componets/Home/EditHome'
+
 
 
 
@@ -26,6 +28,7 @@ const App = () => {
             <Route path='/admindashboard' element={<AdminDashBord />} ></Route>
             <Route path='/loginpage' element={<Login />}></Route>
             <Route path='/registerpage' element={<Register />}></Route>
+            <Route path='/edituser' element={<EditHome />}></Route>
           </Routes>
         </Router>
       </Provider>
