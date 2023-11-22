@@ -28,7 +28,7 @@ const Login = () => {
   const login = async () => {
     if (!user.email || !user.password) {
       setErrors({ ...errors, email: 'Email and password are required' });
-      return;
+      return; 
     }
 
     try {

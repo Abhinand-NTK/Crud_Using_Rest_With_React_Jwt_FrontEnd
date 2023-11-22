@@ -13,6 +13,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('jwtToken');
+        localStorage.removeItem('jwtTokenadmin');
         dispatch(logout());
     };
 
@@ -73,18 +74,10 @@ const Navbar = () => {
                     <h1>Navbar</h1>
                 </div>
                 <div className='lists'>
-                    {user.user ? (
-                        user.user.is_admin ? (
-                            <>
-                                {adminLinks}
-                                {/* {userLinks} */}
-                            </>
-                        ) : (
-                            userLinks
-                        )
-                    ) : (
-                        guestLinks
-                    )}
+
+                {user.superuser ? adminLinks : user.user ? userLinks : guestLinks}
+
+                 
                 </div>
             </div>
         </div>

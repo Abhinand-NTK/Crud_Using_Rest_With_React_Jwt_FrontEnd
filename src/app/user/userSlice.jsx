@@ -16,9 +16,12 @@ export const userLogin = createAsyncThunk('user/login', async (userData) => {
     try {
         const response = await userApi.login(userData);
         const accessToken = response.access;
-        localStorage.setItem('jwtToken', accessToken);
         const decodedToken = jwtDecode(accessToken);
-        console.log(decodedToken)
+        if (decodedToken.is_admin) {
+            localStorage.setItem('jwtTokenadmin', accessToken);
+        } else {
+            localStorage.setItem('jwtToken', accessToken);
+        }
         return decodedToken;
     } catch (error) {
         throw error;
@@ -26,21 +29,49 @@ export const userLogin = createAsyncThunk('user/login', async (userData) => {
 });
 
 
+export const superUserLogin = createAsyncThunk('superUser/login', async (userData) => {
+    try {
+        const response = await userApi.login(userData);
+        const accessToken = response.access;
+        const decodedToken = jwtDecode(accessToken);
+      
+            localStorage.setItem('jwtToken', accessToken);
+       
+        return decodedToken;
+    } catch (error) {
+        throw error;
+    }
+});
+
 
 const userSlice = createSlice({
     name: 'user',
-    initialState: { user: null, error: (null) },
+    initialState: { superuser: null, user: null, error: (null) },
     reducers: {
         login: (state, action) => {
-            state.user = action.payload;
-            console.log(action)
+
+            if (!action.payload.is_admin) {
+                state.user = action.payload;
+                state.superuser = null;
+            } else {
+                state.superuser = action.payload;
+                state.user = null;
+
+            }
         },
         logout: (state) => {
-            state.user = null;
+            if (state.user){
+                state.user = null;
+            }else{
+                state.superuser = null;
+            }
         },
         updateUser: (state, action) => {
             state.user = action.payload;
-          },
+        },
+        updateSuperUser: (state, action) => {
+            state.superuser = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -53,7 +84,16 @@ const userSlice = createSlice({
                 state.error = action.error.message;
             })
             .addCase(userLogin.fulfilled, (state, action) => {
-                state.user = action.payload;
+                if (!action.payload.is_admin) {
+                    state.user = action.payload;
+                    state.superuser = null;
+                }
+            })
+            .addCase(superUserLogin.fulfilled, (state, action) => {
+                if (action.payload.is_admin) {
+                    state.superuser = action.payload;
+                    state.user = null;
+                }
             })
             .addCase(updateUser, (state, action) => {
                 state.user = action.payload;
@@ -62,4 +102,4 @@ const userSlice = createSlice({
 })
 
 export default userSlice.reducer;
-export const { login, logout,updateUser } = userSlice.actions;
+export const { login, logout, updateUser,updateSuperUser } = userSlice.actions;

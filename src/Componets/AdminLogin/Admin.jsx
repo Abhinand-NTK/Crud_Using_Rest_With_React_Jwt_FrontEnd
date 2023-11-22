@@ -3,7 +3,7 @@ import Layout from '../Layout/Layout'
 import './Admin.css'
 import { useDispatch,useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { userLogin } from '../../app/user/userSlice'
+import { superUserLogin } from '../../app/user/userSlice'
 import { jwtDecode } from 'jwt-decode'
 
 
@@ -38,8 +38,7 @@ const Admin = () => {
         }
 
         try {
-            const decodedToken = await dispatch(userLogin(adminUser));
-            // console.log(decodedToken);
+            const decodedToken = await dispatch(superUserLogin(adminUser));
 
             if (decodedToken.payload.is_admin) {
                 navigate('/admindashboard');
