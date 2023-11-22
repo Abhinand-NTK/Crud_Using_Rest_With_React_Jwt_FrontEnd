@@ -36,10 +36,10 @@ const AdminDashBord = () => {
     }, [tokenAdmin]);
 
     useEffect(() => {
-        if (!user.superuser) {
-            setTimeout(() => navigate('/admin'), 5000);
+        if (!user.superuser && !isLoading) {
+            setTimeout(() => navigate('/admin'));
         }
-    }, [user, navigate]);
+    }, [user.superuser, isLoading]);
 
     async function adminUserDetails() {
         try {
@@ -51,6 +51,17 @@ const AdminDashBord = () => {
             setIsLoading(false);
         }
     }
+
+    useEffect(()=>{
+        try{
+            const response = await axios.get(`${BASE_URL}/users/user-detail/`)
+        }catch(error){
+            console.error('Error fetcing user details':error)
+        }
+        finally{
+            setIsLoading(false)
+        }
+    })
 
 
     return (

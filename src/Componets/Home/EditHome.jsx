@@ -9,6 +9,7 @@ import { BASE_URL } from '../../app/user/userApi';
 import axios from 'axios';
 import { updateUser } from '../../app/user/userSlice';
 import { default_profile_link } from '../../assets/defaultprofile';
+import toast, { Toaster } from 'react-hot-toast';
 
 const EditHome = () => {
   const user = useSelector((state) => state.user);
@@ -18,8 +19,9 @@ const EditHome = () => {
   let decodedToken;
   const dispatch = useDispatch();
   const [passwordCheck, setPasswordCheck] = useState(false);
+  const notify = () => toast('User data changed successfully');
 
- 
+
   const [formData, updateFormData] = useState({
     first_name: user.user?.first_name,
     last_name: user.user ? user.user.last_name : '',
@@ -78,14 +80,21 @@ const EditHome = () => {
 
       if (!formData.password) {
         setPasswordCheck(true);
-        return; // Do not proceed with the update if the password is empty
+        return;
       } else {
         setPasswordCheck(false);
       }
 
-    
+
       const response = await axios.put(`${BASE_URL}/users/user-detail/${decodedToken.user_id}/`, updatedUser);
-      
+
+      if (response.status == 200) {
+        notify()
+        formData.password = ''
+      }
+
+
+      console.log("This is my data check this one and verify it", response.status)
 
       dispatch(updateUser(response.data));
 
@@ -136,13 +145,13 @@ const EditHome = () => {
                     id="email"
                     value={formData.email}
                     onChange={(e) => { updateFormData({ ...formData, email: e.target.value }) }}
-                  />  
+                  />
                   <label htmlFor="lastname">Password</label>
                   <input type="password"
                     name="password"
                     id="Password"
                     onChange={(e) => { updateFormData({ ...formData, password: e.target.value }) }} />
-                  {passwordCheck  && (
+                  {passwordCheck && (
                     <span className='error-message'>Password is required for updating user details.</span>
                   )}
                   <a onClick={updateUserDetails} className='edituser'>Submit Edit info</a>
@@ -152,6 +161,16 @@ const EditHome = () => {
           ) : (
             <p className='errorfornotlogin'>You are not logged in. Please log in.</p>
           )}
+          <Toaster
+            toastOptions={{
+              className: '',
+              style: {
+                border: '1px solid #008000', 
+                color: '#FFFFFF', 
+                background: '#008000', 
+              },
+            }}
+          />
         </div>
       </Layout>
     </>

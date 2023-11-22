@@ -63,28 +63,12 @@ const Home = () => {
               }
               <div className=''>
                 <img src={default_profile_link} />
-                {/* <div className='boxfordata'>
-                  <label htmlFor="firstname">Enter the firstname</label>
-                  <input type="text" name="" id="firstname" />
-                  <label htmlFor="lastname">Enter the Lastname</label>
-                  <input type="text" name="" id="lastname" />
-                  <label htmlFor="email">Enter the Email</label>
-                  <input type="text" name="" id="email" />
-                  <label htmlFor="lastname">Password</label>
-                  <input type="text" name="" id="Password" />
-                  <label htmlFor="repeatpassword">Repeat Password</label>
-                  <input type="text" name="" id="repeatpassword" />
-                  <a href="" className='edituser d'>Submit Edit info</a>
-                </div> */}
                 <p>Welcome, {user.user.first_name + ' ' + user.user.last_name}</p>
                 <p>Email: {user.user.email}</p>
                 <p>User Status: {user.user.is_admin ? 'Admin' : 'Staff/User'}</p>
-                {/* <a href=""   className='edituser'>Edit the user details</a> */}
                 <NavLink className='edituser' to='/edituser'>
                   Edit the user details
                 </NavLink>
-                {/* <Navlink className='edituser' to='/edituser'> */}
-                {/* </Navlink> */}
               </div>
             </div>
           ) : (

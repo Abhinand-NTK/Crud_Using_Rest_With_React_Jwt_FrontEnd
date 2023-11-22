@@ -40,7 +40,7 @@ const Navbar = () => {
     const userLinks = (
         <>
             <li>
-                <NavLink className='linkli' to='/profile'>
+                <NavLink className='linkli' to='/'>
                     Profile
                 </NavLink>
             </li>
