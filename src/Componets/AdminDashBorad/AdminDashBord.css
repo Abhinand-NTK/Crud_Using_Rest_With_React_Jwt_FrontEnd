@@ -15,11 +15,12 @@ thead
 {
     height: 1;
 }
-/* a
+.block
 {
-    color: black;
+    color:red;
     font-weight: 700;
-} */
+    cursor: pointer;
+} 
 
 tr,tbody
 {
@@ -44,4 +45,25 @@ tr:nth-child(even) {
 
 tr:hover {
     background-color: #34c608;
+}
+.searchBox{
+    margin-bottom: 20px;
+}
+
+.searchBox a {
+    /* display: inline-block; */
+    padding: 5px 5px;
+    text-decoration: none;
+    color: black;
+    background-color: #ffffff;
+    border: 2px solid #333333;
+    border-radius: 10px;
+    /* margin: 2px; */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.searchBox a:hover {
+    background-color: #333333;
+    color: white;
+    border-color: #ffffff;
 }

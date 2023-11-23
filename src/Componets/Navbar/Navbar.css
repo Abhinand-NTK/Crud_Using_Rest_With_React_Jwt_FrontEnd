@@ -5,6 +5,7 @@ body {
 .nav {
     /*  margin: 50px; */
     background-color: black;
+    /* background: rgba(255, 0, 0, 2); */
     box-shadow: 0 0 25px 0 black;
     color: white;
 }

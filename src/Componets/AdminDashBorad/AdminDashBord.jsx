@@ -21,17 +21,20 @@ const AdminDashBord = () => {
     const [isLoading, setIsLoading] = useState(true);
     let decodedAdminToken;
     const dispatch = useDispatch()
-    
+    const [users, setUsers] = useState([])
+    const [searchTerm,setSerchTerm] = useState('')
 
 
-        if(tokenAdmin) {
-            decodedAdminToken = jwtDecode(tokenAdmin)
-        }
+
+    if (tokenAdmin) {
+        decodedAdminToken = jwtDecode(tokenAdmin)
+    }
     useEffect(() => {
         if (!tokenAdmin) {
             navigate('/admindashboard');
         } else {
             adminUserDetails();
+            getUserlist();
         }
     }, [tokenAdmin]);
 
@@ -52,18 +55,22 @@ const AdminDashBord = () => {
         }
     }
 
-    useEffect(()=>{
-        try{
-            const response = await axios.get(`${BASE_URL}/users/user-detail/`)
-        }catch(error){
-            console.error('Error fetcing user details':error)
-        }
-        finally{
-            setIsLoading(false)
-        }
-    })
+
+    async function getUserlist() {
+        const request = await axios.get(`${BASE_URL}/users/user-list/`);
+        setUsers(request.data);
+    }
+    async function getData()
+    {
+        const request = await axios.get(`${BASE_URL}/users/user-list/?search=${searchTerm}`);
+        setUsers(request.data);
+        console.log("This is the search term",request.data)
+
+    }
 
 
+
+  
     return (
         <>
             <Layout>
@@ -72,6 +79,10 @@ const AdminDashBord = () => {
                     user.superuser ? (
                         <div className='tablealignement'>
                             <div className="table-responsive">
+                                <div className='searchBox'>
+                                    <input value={searchTerm} placeholder='Enter the search input' onChange={(e)=>{setSerchTerm(e.target.value); getData()}} type="text" name="" id="" />
+                                    {/* <a>Search</a> */}
+                                </div>
                                 <table className="table table-primary">
                                     <thead>
                                         <tr>
@@ -81,17 +92,21 @@ const AdminDashBord = () => {
                                             <th scope="col">LastName</th>
                                             <th scope="col">Email</th>
                                             <th scope="col">Status</th>
+                                            <th scope="col">Change Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr className=''>
-                                            <td>1</td>
-                                            <td><img src="" alt="NO PROFILE PIC" /></td>
-                                            <td>Abhinand</td>
-                                            <td>Ntk</td>
-                                            <td>Email</td>
-                                            <td><a href="">Block</a></td>
-                                        </tr>
+                                        {users.map((user, index) => (
+                                            <tr className=''>
+                                                <td>{index + 1}</td>
+                                                <td><img src="" alt="NO PROFILE PIC" /></td>
+                                                <td>{user.first_name}</td>
+                                                <td>{user.last_name}</td>
+                                                <td>{user.email}</td>
+                                                <td>{user.is_active ? 'True' : 'False'}</td>
+                                                <td><a className='block'>Block/UnBlock</a></td>
+                                            </tr>
+                                        ))}
 
                                     </tbody>
                                 </table>
