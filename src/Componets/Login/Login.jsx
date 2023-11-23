@@ -33,16 +33,16 @@ const Login = () => {
 
     try {
       const decodedToken = await dispatch(userLogin(user));
-      console.log(decodedToken);
+      console.log("this is my admin",decodedToken.payload.is_active);
 
-      if (!decodedToken.payload.is_admin) {
+      if (!decodedToken.payload.is_admin && decodedToken.payload.is_active) {
         navigate('/');
       }
       else if (decodedToken.payload.is_admin == true) {
         setErrors({ ...errors, email: 'Only users are allowed to log in.' });
       }
-      else {
-        setErrors({ ...errors, email: 'Only Users are allowed to log in.' });
+      else if(decodedToken.payload.is_active == false) {
+        setErrors({ ...errors, email: 'Your account is blocked.' });
       }
     } catch (error) {
       console.error('Login error:', error);

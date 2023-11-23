@@ -22,7 +22,10 @@ const AdminDashBord = () => {
     let decodedAdminToken;
     const dispatch = useDispatch()
     const [users, setUsers] = useState([])
-    const [searchTerm,setSerchTerm] = useState('')
+    const [searchTerm, setSerchTerm] = useState('')
+    const [status, setStatus] = useState('')
+
+
 
 
 
@@ -46,7 +49,7 @@ const AdminDashBord = () => {
 
     async function adminUserDetails() {
         try {
-            const response = await axios.get(`${BASE_URL}/users/user-detail/${decodedAdminToken.user_id}/`);
+            const response = await axios.get(`${BASE_URL}/users/user-detail/${decodedAdminToken.user_id}/`, { is_active: false });
             dispatch(updateSuperUser(response.data));
         } catch (error) {
             console.error('Error fetching user details:', error);
@@ -60,17 +63,30 @@ const AdminDashBord = () => {
         const request = await axios.get(`${BASE_URL}/users/user-list/`);
         setUsers(request.data);
     }
-    async function getData()
-    {
+    async function getData() {
         const request = await axios.get(`${BASE_URL}/users/user-list/?search=${searchTerm}`);
         setUsers(request.data);
-        console.log("This is the search term",request.data)
+        console.log("This is the search term", request.data)
 
     }
 
+      async function block_Or_Unblock_User(id, currentStatus) {
+        try {
+            const newStatus = !currentStatus;
+            const response = await axios.patch(`${BASE_URL}/users/user-detail/${id}/`, { is_active: newStatus });
+            dispatch(updateSuperUser(response.data));
+    
+            setUsers(prevUsers => prevUsers.map(user => (user.id === id ? { ...user, is_active: newStatus } : user)));
+        } catch (error) {
+            console.error("Error blocking/unblocking user:", error);
+        }
+    }
+    
+      
 
 
-  
+
+
     return (
         <>
             <Layout>
@@ -80,7 +96,7 @@ const AdminDashBord = () => {
                         <div className='tablealignement'>
                             <div className="table-responsive">
                                 <div className='searchBox'>
-                                    <input value={searchTerm} placeholder='Enter the search input' onChange={(e)=>{setSerchTerm(e.target.value); getData()}} type="text" name="" id="" />
+                                    <input value={searchTerm} placeholder='Enter the search input' onChange={(e) => { setSerchTerm(e.target.value); getData(user.id,user.is_active) }} type="text" name="" id="" />
                                     {/* <a>Search</a> */}
                                 </div>
                                 <table className="table table-primary">
@@ -104,7 +120,7 @@ const AdminDashBord = () => {
                                                 <td>{user.last_name}</td>
                                                 <td>{user.email}</td>
                                                 <td>{user.is_active ? 'True' : 'False'}</td>
-                                                <td><a className='block'>Block/UnBlock</a></td>
+                                                <td><a className='block' onClick={() => block_Or_Unblock_User(user.id,user.is_active ? true : false)}>{user.is_active ? "UnBlock" : "Block"}</a></td>
                                             </tr>
                                         ))}
 
