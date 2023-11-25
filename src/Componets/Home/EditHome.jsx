@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from 'react';
 import Layout from '../Layout/Layout';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,16 +21,17 @@ const EditHome = () => {
   const dispatch = useDispatch();
   const [passwordCheck, setPasswordCheck] = useState(false);
   const notify = () => toast('User data changed successfully');
-
+  
 
   const [formData, updateFormData] = useState({
-    first_name: user.user?.first_name,
+    user_image:  null,
+    first_name: user.user ? user.user.first_name : '',
+    file:null,
     last_name: user.user ? user.user.last_name : '',
     email: user.user ? user.user.email : '',
     password: '',
   });
 
-  console.log("This is the formdata", formData.password)
 
 
 
@@ -69,24 +71,33 @@ const EditHome = () => {
   }
 
   const updateUserDetails = async () => {
+    console.log('User Details form --> ',formData);
     try {
       const updatedUser = {
+        user_image: formData.user_image,
         first_name: formData.first_name,
         email: formData.email,
         last_name: formData.last_name,
         password: formData.password,
       };
 
-
+      
+      
       if (!formData.password) {
         setPasswordCheck(true);
         return;
       } else {
         setPasswordCheck(false);
       }
-
-
-      const response = await axios.put(`${BASE_URL}/users/user-detail/${decodedToken.user_id}/`, updatedUser);
+      
+      console.log("This is the updaate user",updateUser)
+      const imageFormData = new FormData();
+      imageFormData.append('user_image',formData.user_image)
+      imageFormData.append('password',formData.password)
+      imageFormData.append('first_name',formData.first_name)
+      imageFormData.append('last_name',formData.last_name)
+      imageFormData.append('email',formData.email)
+      const response = await axios.put(`${BASE_URL}/users/user-detail/${decodedToken.user_id}/`, imageFormData);
 
       if (response.status == 200) {
         notify()
@@ -119,8 +130,22 @@ const EditHome = () => {
                 !user.user ? <p className='heading'>Your are not logged in </p> : <p className='heading'>Edit Admin</p>
               }
               <div className=''>
-                <img src={default_profile_link} />
+                {/* <img src={formData.user_image ? formData.user_image : default_profile_link} /> */}
+                <img src={user.user.user_image ? user.user.user_image : default_profile_link} />
                 <div className='boxfordata'>
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="profile-img"
+                    onChange={(e) => {
+                      const file = e.target.files[0];
+                      console.log('upload file --> ',file);
+                      if (file) {
+                          updateFormData({ ...formData, user_image:file});
+                        };
+                      }}
+                  />
+
                   <label htmlFor="firstname">Enter the firstname</label>
                   <input
                     type="text"
@@ -165,9 +190,9 @@ const EditHome = () => {
             toastOptions={{
               className: '',
               style: {
-                border: '1px solid #008000', 
-                color: '#FFFFFF', 
-                background: '#008000', 
+                border: '1px solid #008000',
+                color: '#FFFFFF',
+                background: '#008000',
               },
             }}
           />

@@ -120,7 +120,7 @@ const AdminDashBord = () => {
                                                 <td>{user.last_name}</td>
                                                 <td>{user.email}</td>
                                                 <td>{user.is_active ? 'True' : 'False'}</td>
-                                                <td><a className='block' onClick={() => block_Or_Unblock_User(user.id,user.is_active ? true : false)}>{user.is_active ? "UnBlock" : "Block"}</a></td>
+                                                <td><a className='block' onClick={() => block_Or_Unblock_User(user.id,user.is_active ? true : false)}>{user.is_active ? "Block" : "UnBlock"}</a></td>
                                             </tr>
                                         ))}
 

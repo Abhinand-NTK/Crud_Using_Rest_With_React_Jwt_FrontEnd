@@ -33,7 +33,7 @@ const Login = () => {
 
     try {
       const decodedToken = await dispatch(userLogin(user));
-      console.log("this is my admin",decodedToken.payload.is_active);
+      // console.log("this is my admin",decodedToken.payload.is_active);
 
       if (!decodedToken.payload.is_admin && decodedToken.payload.is_active) {
         navigate('/');
