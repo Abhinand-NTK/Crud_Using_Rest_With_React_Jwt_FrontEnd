@@ -42,7 +42,7 @@ export const superUserLogin = createAsyncThunk('superUser/login', async (userDat
         throw error;
     }
 });
-
+ 
 
 const userSlice = createSlice({
     name: 'user',
